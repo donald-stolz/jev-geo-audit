@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jev GEO Citability Audit</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="appShell" class="app-shell" aria-busy="false">
+    <!-- Keep identity, live status, and full-screen access visible. -->
+    <header class="topbar">
+      <div class="brand-lockup">
+        <span class="brand-mark" aria-hidden="true">J</span>
+        <div>
+          <p class="eyebrow">Jev GEO Citability Audit | NextWork</p>
+          <h1>Live editorial command center</h1>
+        </div>
+      </div>
+      <div class="topbar-telemetry" aria-label="Current audit status">
+        <span class="status-dot" aria-hidden="true"></span>
+        <strong id="runStatus" role="status">Mock preview ready</strong>
+        <span id="activeWorkers">0 / 1 active</span>
+      </div>
+      <button id="fullscreenBtn" class="quiet-button" type="button" aria-pressed="false">Enter full screen</button>
+    </header>
+
+    <main class="dashboard">
+      <!-- Keep audit inputs compact so the evidence workspace stays visible. -->
+      <section class="panel control-bar" aria-labelledby="controls-title">
+        <div class="control-heading">
+          <p class="section-label">Audit controls</p>
+          <h2 id="controls-title">Choose a site and speed</h2>
+        </div>
+        <div class="url-control">
+          <label for="websiteUrl">Authorised website URL</label>
+          <div class="input-row">
+            <input id="websiteUrl" type="url" placeholder="https://example.com" autocomplete="url">
+            <button id="discoverSite" type="button">Discover pages</button>
+          </div>
+          <p id="discoveryStatus" class="status"></p>
+        </div>
+        <fieldset class="speed-control">
+          <legend>Analysis speed</legend>
+          <div class="speed-grid">
+            <button class="mode-button active" type="button" data-concurrency="1" aria-pressed="true">Sequential</button>
+            <button class="mode-button" type="button" data-concurrency="8" aria-pressed="false">Fast x8</button>
+            <button class="mode-button" type="button" data-concurrency="24" aria-pressed="false">Turbo x24 <small>Advanced</small></button>
+          </div>
+        </fieldset>
+        <div class="prediction-control">
+          <label for="prediction">Predicted weakest signal</label>
+          <select id="prediction">
+            <option value="answer_clarity">Answer clarity</option>
+            <option value="evidence_specificity">Evidence specificity</option>
+            <option value="source_transparency">Source transparency</option>
+            <option value="extractable_structure">Extractable structure</option>
+          </select>
+          <p id="predictionResult" class="status"></p>
+        </div>
+        <div class="run-actions">
+          <button id="runPilot" type="button" disabled>Run five-page pilot</button>
+          <button id="runFull" class="primary" type="button" disabled>Run Full Discovery</button>
+          <button id="stopRun" class="danger-button" type="button" disabled>Stop</button>
+        </div>
+      </section>
+
+      <!-- Report measured values without inventing activity. -->
+      <section class="metrics" aria-label="Audit metrics">
+        <article><span>Progress</span><strong id="progress">12 mock</strong></article>
+        <article><span>Elapsed</span><strong id="elapsed">0.0 s</strong></article>
+        <article><span>Candidate speed</span><strong id="liveSpeed">0.00 pages/s</strong></article>
+        <article><span>Average latency</span><strong id="latency">0 ms</strong></article>
+        <article><span>Successful cost</span><strong id="cost">$0.000000</strong></article>
+        <article class="rate-card">
+          <span>Successful audit rate</span>
+          <div class="gauge-wrap">
+            <svg class="rate-gauge" viewBox="0 0 120 66" aria-hidden="true">
+              <path class="gauge-track" pathLength="100" d="M10 58 A50 50 0 0 1 110 58"></path>
+              <path id="successGauge" class="gauge-value" pathLength="100" d="M10 58 A50 50 0 0 1 110 58"></path>
+            </svg>
+            <strong id="successRate">100%</strong>
+          </div>
+        </article>
+      </section>
+
+      <!-- Surface only genuine in-flight URLs and truthful progress. -->
+      <section id="activityPanel" class="panel activity-panel" aria-labelledby="activity-title">
+        <div class="activity-heading">
+          <div>
+            <p class="section-label">Jev live processing</p>
+            <h2 id="activity-title">Worker activity</h2>
+          </div>
+          <span id="runState" class="pill">Mock data</span>
+        </div>
+        <div class="progress-track" aria-label="Audit progress">
+          <span id="progressBar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></span>
+        </div>
+        <div id="workerRail" class="worker-rail" aria-live="polite">
+          <p class="empty-state">Worker cards appear here when real audit requests begin.</p>
+        </div>
+      </section>
+
+      <!-- Keep feed, queue, and editor visible in the remaining viewport. -->
+      <section class="workspace">
+        <article class="panel workspace-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="section-label">Live evidence</p>
+              <h2>Completion feed</h2>
+            </div>
+            <span id="throughput" class="pill">0.00 successful/s</span>
+          </div>
+          <div id="feed" class="scroll-region feed" aria-live="polite"></div>
+        </article>
+
+        <article class="panel workspace-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="section-label">Priorities</p>
+              <h2>Review queue</h2>
+            </div>
+            <div class="compact-actions">
+              <button id="exportCsv" type="button">CSV</button>
+              <button id="exportJson" type="button">JSON</button>
+            </div>
+          </div>
+          <div id="reviewQueue" class="scroll-region queue"></div>
+        </article>
+
+        <aside class="panel workspace-panel editor" aria-labelledby="editor-title">
+          <div class="panel-heading">
+            <div>
+              <p class="section-label">Local improvement draft</p>
+              <h2 id="editor-title">Select a weak page</h2>
+              <p id="editorUrl" class="status">No page selected.</p>
+            </div>
+            <span id="editorScore" class="score-badge">No score</span>
+          </div>
+          <label for="pageContent">Proposed page content</label>
+          <textarea id="pageContent" placeholder="Select a page to review its content."></textarea>
+          <div class="compact-actions editor-actions">
+            <button id="saveText" type="button">Save local draft</button>
+            <button id="rescore" class="primary" type="button">Re-score draft</button>
+          </div>
+          <p id="editorStatus" class="status">Changes here stay in this browser session.</p>
+          <details class="method-note">
+            <summary>Method and limitations</summary>
+            <p>The readiness score is a project-defined editorial heuristic. Jev evaluates extracted server-rendered text, while skipped pages are excluded from successful throughput and latency.</p>
+          </details>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <!-- Confirm maximum paid exposure before Full Discovery. -->
+  <dialog id="fullRunDialog">
+    <form method="dialog" class="dialog-card">
+      <p class="section-label">Paid API confirmation</p>
+      <h2>Review Full Discovery</h2>
+      <dl class="dialog-stats">
+        <div><dt>Candidate pages</dt><dd id="dialogCandidates">0</dd></div>
+        <div><dt>Maximum Jev estimate</dt><dd id="dialogCost">$0.000000</dd></div>
+        <div><dt>Remaining project budget</dt><dd id="dialogBudget">$6.000000</dd></div>
+        <div><dt>Selected speed</dt><dd id="dialogSpeed">Sequential</dd></div>
+      </dl>
+      <p class="status">Only eligible pages reach the paid API, so the final charge can be lower than this maximum.</p>
+      <div class="dialog-actions">
+        <button id="cancelFull" value="cancel" type="submit">Cancel</button>
+        <button id="confirmFull" class="primary" value="default" type="button">Start Full Discovery</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Report normal, manual, and automatic stops in one completion summary. -->
+  <dialog id="completionDialog">
+    <form method="dialog" class="dialog-card">
+      <p class="section-label">Audit settled</p>
+      <h2>Jev run summary</h2>
+      <dl id="completionSummary" class="dialog-stats"></dl>
+      <div class="dialog-actions">
+        <button class="primary" value="close" type="submit">Return to dashboard</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>

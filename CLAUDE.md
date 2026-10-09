@@ -1,0 +1,65 @@
+# Project instructions
+
+- Keep the project dependency-free. Use browser APIs and the Python standard library.
+- Keep every real credential in the local `.env` file.
+- Never place a real credential or server environment name in browser-delivered files.
+- Keep `.env` ignored by Git.
+- Bind the learning server to `127.0.0.1`.
+- Use `ThreadingHTTPServer` for concurrent local requests.
+- Use `POST https://openrouter.ai/api/alpha/decisions` for live Jev audits.
+- Use model `typesafe/jev-1.13`.
+- Preserve the `/api/discover` and `/api/audit` browser contracts.
+- Preserve the `readiness`, `weakest_signal`, and `verifiable_support` question keys.
+- Discover URLs from `robots.txt`, sitemap URL sets, and sitemap indexes.
+- Remove leading whitespace from sitemap bytes after optional gzip expansion and before XML parsing.
+- Respect `robots.txt`, `Crawl-delay`, and the 600-page project cap.
+- Fetch only public HTTP or HTTPS URLs from the authorised website.
+- Reject credentials in URLs, unsafe ports, private IP addresses, and cross-site redirects.
+- Limit downloaded sitemap and HTML response sizes.
+- Extract text from server-rendered HTML without executing JavaScript.
+- Classify pages with fewer than 80 extracted characters as skipped before any Jev call.
+- Track attempted, succeeded, skipped, and failed pages separately.
+- Stop the pilot after five successful audits or 25 candidate attempts.
+- Call the larger run `Full Discovery` in buttons, dialogs, status text, and learner-facing copy.
+- Keep the 1, 8, and 24 analysis controls available for Full Discovery.
+- Keep Sequential selected by default. Treat Fast x8 and Turbo x24 as optional accelerators.
+- Build the browser as a Jev-only command center. Never invent other model or token-stream activity.
+- Fit the dashboard inside one `100dvh` desktop viewport and keep body scrolling disabled at common desktop sizes.
+- Restore normal page scrolling below 1100px wide or 680px high.
+- Keep long feeds, queues, and editor content inside independently scrolling panels.
+- Preserve the element IDs `appShell`, `activityPanel`, `workerRail`, `runStatus`, `activeWorkers`, `progressBar`, `liveSpeed`, and `fullscreenBtn`.
+- Use the Fullscreen API only after a direct user action. Detect unsupported or rejected requests without breaking the dashboard.
+- Treat website discovery as a real busy operation that is separate from a Jev audit run.
+- While `/api/discover` is pending, set `aria-busy` on `appShell` and add `is-discovering` to `activityPanel`.
+- During discovery, show the authorised URL and the truthful status `Reading crawl rules and sitemap files` in the worker rail.
+- Use an indeterminate progress sweep during discovery. Never display a fabricated completion percentage or simulated page count.
+- Update discovery elapsed time with `requestAnimationFrame`, then cancel the frame when discovery succeeds or fails.
+- Change the discovery button label to `Discovering...` while the request is pending and restore it when the request settles.
+- Disable conflicting discovery and audit controls while discovery is pending.
+- Remove the discovery worker card, busy state, and animation after success or failure.
+- Track real in-flight audit requests in `activePages`. Never add placeholders to `activePages` or simulate live worker cards.
+- Render one worker card per in-flight URL with a moving perimeter light.
+- Drive worker-card perimeter lights from a stable animation clock on `workerRail` so metrics updates cannot reset their orbit.
+- Never recreate worker cards inside the `requestAnimationFrame` metrics loop.
+- Remove a worker card when its request settles, then place its real outcome in the completion feed.
+- Render each result when its own request settles.
+- Drive the linear progress bar from attempted candidates divided by the run target.
+- Add a moving highlight inside the truthful filled portion while an audit is running.
+- Show a successful audit rate arc based on succeeded candidates divided by attempted candidates.
+- Keep candidate-processing speed, successful-page speed, and successful-response cost as separate metrics.
+- After at least 20 settled Full Discovery attempts, automatically stop before launching another batch whenever succeeded candidates divided by attempted candidates is below 50 percent.
+- Let every request already in flight settle before evaluating the automatic-stop guard.
+- Count skipped and failed candidates as unsuccessful attempts when calculating the guard.
+- Do not offer a continue action after the guard triggers.
+- Show the attempted, succeeded, skipped, failed, and successful audit rate values with the automatic-stop reason.
+- Set `aria-busy` on `appShell` and add `is-running` to `activityPanel` only during an audit run.
+- Stop processing animation after completion, failure, a manual stop, or an automatic threshold stop.
+- Respect `prefers-reduced-motion` with static active borders, progress styling, and worker-card borders.
+- Track every audit `AbortController` and abort all in-flight requests when Stop is selected.
+- Show an in-page paid confirmation before Full Discovery with candidate count, maximum cost, remaining $6 budget, and selected speed.
+- Show an in-page completion summary after a settled run.
+- Export source URL, outcome, fetch time, HTTP status, methodology, model, request ID, latency, confidence, support, and cost.
+- Treat the readiness score as a project-defined editorial heuristic, not an official GEO standard.
+- Treat editor changes as local drafts. Never claim the dashboard modifies the live website.
+- Escape server-controlled and URL-derived text before inserting it into the page.
+- Do not use Python's `http.server` as production hosting.
